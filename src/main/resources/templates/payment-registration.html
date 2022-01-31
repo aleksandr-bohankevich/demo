@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Input payment data</title>
+    <style type="text/css">
+        label {
+            display: inline-block;
+            width: 200px;
+            margin: 5px;
+            text-align: left;
+        }
+        input[type=text] {
+            display: inline-block;
+            width: 200px;
+        }
+        button {
+            padding: 5px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<div align="right">
+    [[${user.name}]] <br/>
+    <a href="/logout">Logout</a> <br/>
+</div>
+<div align="center">
+    <h1>Payment Registration</h1>
+    <form action="#" th:action="@{/payment-send}" method="post" th:object="${payment}">
+        <label>creation date&time:</label>
+
+        <input type="text" th:field="*{creationDateTime}" /><br/>
+
+        <label>Beneficiary</label><br/>
+        <label>creditor name:</label>
+        <input type="text" th:field="*{beneficiary.creditor.name}" /><br/>
+        <label>creditor account:</label>
+        <input type="text" th:field="*{beneficiary.creditorAccount.iban}" /><br/>
+
+        <label>Transaction</label><br/>
+        <label>amount:</label>
+        <input type="text" th:field="*{creditTransferTransaction.instructedAmount.amount}" /><br/>
+        <label>currency:</label>
+        <input type="text" th:field="*{creditTransferTransaction.instructedAmount.currency}" /><br/>
+        <label>remittance information:</label>
+        <input type="text" th:field="*{creditTransferTransaction.remittanceInformation.unstructured}" /><br/>
+        <label>execution date:</label>
+        <input type="text" th:field="*{creditTransferTransaction.requestedExecutionDate}" /><br/>
+
+        <br/>
+        <label>number of transactions:</label>
+        <input type="text" th:field="*{numberOfTransactions}" /><br/>
+
+        <label>payment information id</label>
+        <input type="text" th:field="*{paymentInformationId}" /><br/>
+
+        <label>Payment type</label><br/>
+        <label>category purpose:</label>
+        <input type="text" th:field="*{paymentTypeInformation.categoryPurpose}" /><br/>
+        <label>local instrument:</label>
+        <input type="text" th:field="*{paymentTypeInformation.localInstrument}" /><br/>
+        <label>service level:</label>
+        <input type="text" th:field="*{paymentTypeInformation.serviceLevel}" /><br/>
+
+        <button type="submit">Register</button>
+    </form>
+</div>
+</body>
+</html>

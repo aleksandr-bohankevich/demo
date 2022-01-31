@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration>
+    <Properties>
+        <Property name="nibbd-pattern">
+            [%d{ISO8601}] %5p: [demo] %m%n
+        </Property>
+        <Property name="LOG_DIR">
+            logs
+        </Property>
+    </Properties>
+    <Appenders>
+        <Console name="demo-console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${demo-pattern}"/>
+        </Console>
+        <RollingFile
+                name="demo-file"
+                fileName="${LOG_DIR}/demo.log"
+                filePattern="${LOG_DIR}/demo-%i.log.gz"
+                append="true">
+            <PatternLayout>
+                <Pattern>${demo}</Pattern>
+                <Charset>UTF-8</Charset>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.example.demo" level="debug" additivity="false">
+            <AppenderRef ref="demo-console" />
+            <AppenderRef ref="demo-file" />
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="demo-console" />
+            <AppenderRef ref="demo-file" />
+        </Root>
+    </Loggers>
+</Configuration>
