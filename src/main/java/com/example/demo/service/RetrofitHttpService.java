@@ -25,6 +25,12 @@ public class RetrofitHttpService {
     @Value("${service.smartym.payment-base-url}")
     private String paymentUrl;
 
+    private final PaymentStorageService paymentStorageService;
+
+    public RetrofitHttpService(PaymentStorageService paymentStorageService) {
+        this.paymentStorageService = paymentStorageService;
+    }
+
     public void sendPaymentAsync(PaymentDto payment, String token, CompletableFuture<Response<PaymentResponseDto>> cf) {
 
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(chain -> {
@@ -43,7 +49,7 @@ public class RetrofitHttpService {
         RetrofitSmartymService service = retrofit.create(RetrofitSmartymService.class);
 
         Call<PaymentResponseDto> response = service.request(payment);
-        response.enqueue(new RfCallbackToCompletableFuture<>(cf));
+        response.enqueue(new RfCallbackToCompletableFuture<>(cf, payment.getPayment().getId(), paymentStorageService));
     }
 
     public int sendPaymentSync(PaymentDto payment, String token) {

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>List of payments</title>
+</head>
+<body>
+    <div align="right">
+        [[${user.name}]] <br/>
+        <a href="/logout">Logout</a> <br/>
+    </div>
+    <div align="center">
+        <h1>List of Payments </h1> <a href="/payments">refresh</a>
+        <table>
+            <thead>
+            <tr>
+                <th> Id </th>
+                <th> No </th>
+                <th> Date </th>
+                <th> Status </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${payments.empty}">
+                <td colspan="4"> No Payments Available </td>
+            </tr>
+            <tr th:each="payment : ${payments}">
+                <td><span th:text="${payment.id}"> Id </span></td>
+                <td><span th:text="${payment.paymentInformationId}"> No </span></td>
+                <td><span th:text="${payment.creationDateTime}"> Date </span></td>
+                <td><span th:text="${payment.status}"> Status </span></td>
+            </tr>
+            </tbody>
+        </table>
+        <a href="/payment-registration">Click here to make payment</a>
+    </div>
+
+</body>
+</html>

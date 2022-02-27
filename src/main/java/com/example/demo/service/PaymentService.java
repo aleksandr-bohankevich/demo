@@ -83,23 +83,24 @@ public class PaymentService {
 
         retrofitHttpService.sendPaymentAsync(dto, token, completableFuture);
 
-        int result = 500;
-        try {
-            result = completableFuture.handle(
-                    (response, failure) -> {
-                        return response.code();
-                    }).get();
-        } catch (InterruptedException e) {
-            logger.error(e.getMessage());
-        } catch (ExecutionException e) {
-            logger.error(e.getMessage());
-        }
-
-        if (result == HttpStatus.SC_OK) {
-            return "payment-success";
-        } else {
-            return "payment-error";
-        }
+//        int result = HttpStatus.SC_INTERNAL_SERVER_ERROR;
+//        try {
+//            result = completableFuture.handle(
+//                    (response, failure) -> {
+//                        return response.code();
+//                    }).get();
+//        } catch (InterruptedException e) {
+//            logger.error(e.getMessage());
+//        } catch (ExecutionException e) {
+//            logger.error(e.getMessage());
+//        }
+//
+//        if (result == HttpStatus.SC_OK) {
+//            return "payment-success";
+//        } else {
+//            return "payment-error";
+//        }
+        return "payment-success";
     }
 
     private String sendApachehttpSync(Payment payment, String token) {

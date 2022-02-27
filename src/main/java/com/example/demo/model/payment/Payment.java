@@ -2,7 +2,9 @@ package com.example.demo.model.payment;
 
 import java.time.LocalDateTime;
 
+import com.example.demo.model.PaymentStatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -15,6 +17,11 @@ public class Payment {
     int numberOfTransactions;
     String paymentInformationId;
     PaymentTypeInformation paymentTypeInformation;
+
+    @JsonIgnore
+    Integer id;
+    @JsonIgnore
+    PaymentStatusEnum status;
 
     public Payment() {
     }
@@ -80,5 +87,21 @@ public class Payment {
 
     public void setPaymentTypeInformation(PaymentTypeInformation paymentTypeInformation) {
         this.paymentTypeInformation = paymentTypeInformation;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public PaymentStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(PaymentStatusEnum status) {
+        this.status = status;
     }
 }

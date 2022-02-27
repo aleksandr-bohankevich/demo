@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.example.demo.model.payment.Payment;
 import com.example.demo.service.PaymentService;
+import com.example.demo.service.PaymentStorageService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
@@ -18,9 +19,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class AppController {
     private final PaymentService paymentService;
+    private final PaymentStorageService paymentStorageService;
 
-    public AppController(PaymentService paymentService) {
+    public AppController(PaymentService paymentService, PaymentStorageService paymentStorageService) {
         this.paymentService = paymentService;
+        this.paymentStorageService = paymentStorageService;
     }
 
     @GetMapping("/")
@@ -41,6 +44,16 @@ public class AppController {
     @PostMapping("/payment-send")
     public String submitForm(@ModelAttribute("payment") Payment payment,
                              @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
+        paymentStorageService.addPayment(payment);
         return paymentService.sendPayment(payment, authorizedClient.getAccessToken().getTokenValue());
+    }
+
+    @GetMapping("/payments")
+    public String showPayments(@AuthenticationPrincipal OAuth2User principal, Model model) {
+        Map<String, Object> user = Collections.singletonMap("name", principal.getAttribute("name"));
+        model.addAttribute("user", user);
+
+        model.addAttribute("payments", paymentStorageService.getPayments());
+        return "payments";
     }
 }
